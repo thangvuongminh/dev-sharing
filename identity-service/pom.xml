@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>identity-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>identity-service</name>
+  <name>identity-service</name>
     <description>identity-service</description>
     <url/>
     <licenses>
@@ -20,7 +20,7 @@
     <developers>
         <developer/>
     </developers>
-    <scm>
+  <scm>
         <connection/>
         <developerConnection/>
         <tag/>
@@ -57,6 +57,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
