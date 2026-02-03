@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001" author="ThangVm-data-table-role">
+        <insert tableName="role">
+            <column name="role_name" value="CONSUMER"/>
+            <column name="description" value="Regular user who can view and use content only"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_name" value="CREATOR"/>
+            <column name="description" value="User who can create, edit, and delete their own content"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_name" value="MODERATOR"/>
+            <column name="description" value="User who reviews and moderates content and handles reports"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_name" value="ADMIN"/>
+            <column name="description" value="System administrator with full access and control"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

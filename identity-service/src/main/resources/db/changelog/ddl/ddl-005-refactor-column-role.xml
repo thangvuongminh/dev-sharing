@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001" author="ThangVm-refactor-column-role">
+        <dropColumn
+                    columnName="created_at"
+                    tableName="role">
+        </dropColumn>
+
+        <dropColumn
+                columnName="updated_at"
+                tableName="role">
+        </dropColumn>
+        <dropColumn
+                columnName="created_by"
+                tableName="role">
+        </dropColumn>
+        <dropColumn
+                columnName="updated_by"
+                tableName="role">
+        </dropColumn>
+    </changeSet>
+</databaseChangeLog>

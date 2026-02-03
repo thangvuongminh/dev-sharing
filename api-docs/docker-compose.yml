@@ -1,0 +1,10 @@
+services:
+  devsharing-docs:
+    image: swaggerapi/swagger-ui:v5.31.0
+    environment:
+      BASE_URL: /swagger-ui
+      OAUTH_USE_BASIC_AUTH: true
+      OAUTH_USE_PKCE: true
+      URLS: '[{"url":"http://localhost:8002/v3/api-docs","name":"Credit service"},{"url":"http://localhost:8003/v3/api-docs","name":"Content service"},{"url":"http://localhost:8001/v3/api-docs","name":"Identity service"}]'
+    ports:
+      - "8080:8080"

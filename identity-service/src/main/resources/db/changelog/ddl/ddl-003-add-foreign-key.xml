@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001" author="ThangVm-add-foreign-key">
+        <addForeignKeyConstraint
+                baseTableName="user_skill" baseColumnNames="profile_id" constraintName="user_skill_profile_id_foreign"
+                referencedTableName="user_profile"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="user_verification" baseColumnNames="user_id" constraintName="user_verification_user_id_foreign"
+                referencedTableName="user"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="user_profile" baseColumnNames="user_id" constraintName="user_profile_user_id_foreign"
+                referencedTableName="user"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="user_role" baseColumnNames="user_id" constraintName="user_role_user_id_foreign"
+                referencedTableName="user"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="user_interest" baseColumnNames="profile_id" constraintName="user_interest_profile_id_foreign"
+                referencedTableName="user_profile"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="user_role" baseColumnNames="role_id" constraintName="user_role_role_id_foreign"
+                referencedTableName="role"
+                referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

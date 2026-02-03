@@ -1,0 +1,8 @@
+springdoc:
+  swagger-ui:
+    oauth:
+      use-basic-authentication-with-access-code-grant: true
+api-docs:
+  authorizationUrl: ${authorizationUrl}
+  tokenUrl:  ${tokenUrl}
+  server: ${server}

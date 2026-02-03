@@ -6,12 +6,34 @@ spring:
       server:
         webflux:
           routes:
-            - id: order-service
-              uri: http://localhost:8002
+            - id: credit-service
+              uri: lb://credit-service
               predicates:
-                - Path=/orders/**
+                - Path=/credit-service/**
               filters:
-                - RewritePath=/orders/?(?<segment>.*),/$\{segment}
+                - RewritePath=/credit-service/?(?<segment>.*),/$\{segment}
+                - DedupeResponseHeader=Access-Control-Allow-Origin
+            - id: content-service
+              uri: lb://content-service
+              predicates:
+                - Path=/content-service/**
+              filters:
+                - RewritePath=/content-service/?(?<segment>.*),/$\{segment}
+                - DedupeResponseHeader=Access-Control-Allow-Origin
+            - id: identity-service
+              uri: lb://identity-service
+              predicates:
+                - Path=/identity-service/**
+              filters:
+                - RewritePath=/identity-service/?(?<segment>.*),/$\{segment}
+                - DedupeResponseHeader=Access-Control-Allow-Origin
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                 allowedOrigins: "*"
+                 allowedMethods: "*"
+                 allowedHeaders: "*"
+
 
 eureka:
   client:

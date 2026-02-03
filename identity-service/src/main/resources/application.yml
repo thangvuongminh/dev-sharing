@@ -1,18 +1,9 @@
 spring:
   application:
     name: identity-service
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/identity-service
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
+  config:
+    import: optional:configserver:http://localhost:6969
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
 server:
   port: 8001

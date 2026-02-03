@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <include file="db/changelog/ddl/ddl-001-initial-user.xml" />
+    <include file="db/changelog/ddl/ddl-002-add-unsigned.xml" />
+    <include file="db/changelog/ddl/ddl-003-add-foreign-key.xml" />
+    <include file="db/changelog/ddl/ddl-004-modify-role_name-in-table-role.xml" />
+    <include file="db/changelog/ddl/ddl-005-refactor-column-role.xml" />
+    <include file="db/changelog/ddl/ddl-006-drop-null-constraint-table-user.xml" />
+    <include file="db/changelog/ddl/ddl-007-refactor-column-status-table-user.xml" />
+    <include file="db/changelog/ddl/ddl-008-oauth2-tables.xml"/>
+
+
+<!--    insert data-->
+    <include file="db/changelog/data/ddl-001-data-table-role.xml"/>
+</databaseChangeLog>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="008" author="ThangVm">
+
+        <createTable tableName="oauth2_clients">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_secret" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="require_authorization_consent" type="tinyint"/>
+            <column name="require_proof_key" type="tinyint"/>
+            <column name="access_token_time_to_live" type="int"/>
+            <column name="refresh_token_time_to_live" type="int"/>
+            <column name="is_active" type="tinyint" defaultValue="1"/>
+            <column name="created_by" type="bigint"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="oauth2_clients"
+                columnNames="client_id"
+                constraintName="uk_oauth2_clients_client_id"/>
+
+        <createIndex tableName="oauth2_clients" indexName="idx_oauth2_clients_client_name">
+            <column name="client_name"/>
+        </createIndex>
+
+        <createIndex tableName="oauth2_clients" indexName="idx_oauth2_clients_is_active">
+            <column name="is_active"/>
+        </createIndex>
+
+        <createTable tableName="oauth2_client_auth_methods">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auth_method" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="oauth2_client_auth_methods"
+                columnNames="client_id,auth_method"
+                constraintName="uk_client_auth_method"/>
+
+        <createTable tableName="oauth2_client_grant_types">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="grant_type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="oauth2_client_grant_types"
+                columnNames="client_id,grant_type"
+                constraintName="uk_client_grant_type"/>
+
+        <createTable tableName="oauth2_client_redirect_uris">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="redirect_uri" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="oauth2_client_redirect_uris"
+                columnNames="client_id,redirect_uri"
+                constraintName="uk_client_redirect_uri"/>
+
+        <createTable tableName="oauth2_client_scopes">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scope" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="oauth2_client_scopes"
+                columnNames="client_id,scope"
+                constraintName="uk_client_scope"/>
+
+        <addForeignKeyConstraint
+                baseTableName="oauth2_client_auth_methods"
+                baseColumnNames="client_id"
+                referencedTableName="oauth2_clients"
+                referencedColumnNames="id"
+                constraintName="fk_auth_methods_client"/>
+
+        <addForeignKeyConstraint
+                baseTableName="oauth2_client_grant_types"
+                baseColumnNames="client_id"
+                referencedTableName="oauth2_clients"
+                referencedColumnNames="id"
+                constraintName="fk_grant_types_client"/>
+
+        <addForeignKeyConstraint
+                baseTableName="oauth2_client_redirect_uris"
+                baseColumnNames="client_id"
+                referencedTableName="oauth2_clients"
+                referencedColumnNames="id"
+                constraintName="fk_redirect_uris_client"/>
+
+        <addForeignKeyConstraint
+                baseTableName="oauth2_client_scopes"
+                baseColumnNames="client_id"
+                referencedTableName="oauth2_clients"
+                referencedColumnNames="id"
+                constraintName="fk_scopes_client"/>
+
+    </changeSet>
+</databaseChangeLog>
