@@ -16,4 +16,5 @@
 
 <!--    insert data-->
     <include file="db/changelog/data/ddl-001-data-table-role.xml"/>
+    <include file="db/changelog/data/ddl-002-data-oauth2_clients.xml"
 </databaseChangeLog>

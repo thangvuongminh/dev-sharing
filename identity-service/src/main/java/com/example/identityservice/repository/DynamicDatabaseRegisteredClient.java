@@ -50,26 +50,26 @@ public class DynamicDatabaseRegisteredClient implements RegisteredClientReposito
         client.getScopes().forEach(registeredClient::scope);
         client.getGrantTypes().forEach(clientGrantType->{
             switch (clientGrantType.toLowerCase()) {
-                case "authorization_code": registeredClient.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE);
-                case "refresh_token": registeredClient.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN);
-                case "client_credentials": registeredClient.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS);
-                default: registeredClient.authorizationGrantType(new AuthorizationGrantType(clientGrantType));
+                case "authorization_code": registeredClient.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE); break;
+                case "refresh_token": registeredClient.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN); break;
+                case "client_credentials": registeredClient.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS); break;
+                default: registeredClient.authorizationGrantType(new AuthorizationGrantType(clientGrantType)); break;
             }
         });
         client.getAuthenticationMethods().forEach(clientAuthenticationMethod->{
             switch (clientAuthenticationMethod.toLowerCase()) {
-                case "client_secret_basic": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
-                case "client_secret_post": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST);
-                case "client_secret_jwt": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_JWT);
-                case "PRIVATE_KEY_JWT": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.PRIVATE_KEY_JWT);
+                case "client_secret_basic": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC); break;
+                case "client_secret_post": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST); break;
+                case "client_secret_jwt": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_JWT); break;
+                case "private_key_jwt": registeredClient.clientAuthenticationMethod(ClientAuthenticationMethod.PRIVATE_KEY_JWT); break;
                 default:
                     registeredClient.clientAuthenticationMethod(new ClientAuthenticationMethod(clientAuthenticationMethod));
                     break;
             }
         });
         registeredClient.clientSettings(ClientSettings.builder()
-                        .requireProofKey(client.getRequireProofKey())
-                        .requireAuthorizationConsent(client.getRequireAuthorizationConsent())
+                .requireProofKey(client.getRequireProofKey())
+                .requireAuthorizationConsent(client.getRequireAuthorizationConsent())
                 .build());
         TokenSettings.Builder tokenSettings= TokenSettings.builder();
         if (client.getAccessTokenTimeToLive()!=null){
@@ -85,16 +85,16 @@ public class DynamicDatabaseRegisteredClient implements RegisteredClientReposito
         OAuth2Client oAuth2Client=new OAuth2Client();
         if (registeredClient.getClientId() != null) {
             try {
-                oAuth2Client.setId(Long.valueOf(registeredClient.getClientId()));
+                oAuth2Client.setId(Long.valueOf(registeredClient.getId()));
             }catch (NumberFormatException e){
                 e.printStackTrace();
             }
         }
-        oAuth2Client.setClientSecret(registeredClient.getClientSecret());
+        oAuth2Client.setClientId(registeredClient.getClientId());
         oAuth2Client.setClientName(registeredClient.getClientName());
         oAuth2Client.setClientSecret(registeredClient.getClientSecret());
         oAuth2Client.setRedirectUris(registeredClient.getRedirectUris());
-        oAuth2Client.setAuthenticationMethods(registeredClient.getScopes());
+        oAuth2Client.setScopes(registeredClient.getScopes());
         Set<String> grantTypes=registeredClient.getAuthorizationGrantTypes().stream().map(AuthorizationGrantType::getValue).collect(Collectors.toSet());
         oAuth2Client.setGrantTypes(grantTypes);
         Set<String> authenticationMethods  =registeredClient.getClientAuthenticationMethods().stream().map(ClientAuthenticationMethod::getValue).collect(Collectors.toSet());
