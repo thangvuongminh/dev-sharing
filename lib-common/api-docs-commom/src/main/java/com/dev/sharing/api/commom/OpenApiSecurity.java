@@ -13,6 +13,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.SecurityFilterChain;
 @Configuration
@@ -25,8 +26,11 @@ public class OpenApiSecurity {
   public SecurityFilterChain swaggerFilterChain(HttpSecurity http) throws Exception {
     http.securityMatcher("/v3/api-docs/**")
         .cors(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationManager(authentication -> {
           var userName=(String)authentication.getPrincipal();
           var password=(String)authentication.getCredentials();
@@ -34,8 +38,7 @@ public class OpenApiSecurity {
             return new UsernamePasswordAuthenticationToken(userName, password,
                 Collections.singleton(new SimpleGrantedAuthority("ADMIN")));
           }
-          throw new BadCredentialsException("Invalid username or password");
-
+          return authentication;
         });
     return http.build();
   }

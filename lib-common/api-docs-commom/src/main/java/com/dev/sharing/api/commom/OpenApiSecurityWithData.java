@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @NoArgsConstructor
 @ConfigurationProperties(prefix = "security.basic.auth")
+@AllArgsConstructor
 @Component
 public class OpenApiSecurityWithData {
   private String username;
