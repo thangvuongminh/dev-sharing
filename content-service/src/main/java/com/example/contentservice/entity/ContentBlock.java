@@ -1,0 +1,50 @@
+package com.example.contentservice.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "content_block")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ContentBlock {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  Long id;
+  @Enumerated(EnumType.STRING)
+  BlockType type;
+  @Column(name = "text_content", columnDefinition = "LONGTEXT")
+  String textContent;
+  @Column(columnDefinition = "JSON")
+  String properties;
+  @Column(name = "position", nullable = false)
+  Integer position;
+  @Column(name = "is_free")
+  @Builder.Default
+  Boolean isFree = false;
+  @Column(name = "created_at")
+  Instant createdAt;
+  @Column(name = "updated_at")
+  Instant updatedAt;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "content_id", nullable = false)
+  Content content;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_block_id")
+  ContentBlock parentBlock;
+  @OneToMany(mappedBy = "parentBlock", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OrderBy("position ASC")
+  @Builder.Default
+  List<ContentBlock> children = new ArrayList<>();
+}

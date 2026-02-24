@@ -1,0 +1,49 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  <changeSet id="content-0007-insert-fake-content" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="content"/>
+      <tableExists tableName="category"/>
+    </preConditions>
+
+    <insert tableName="content">
+      <column name="title" value="Khóa học Next.js 14 Fullstack"/>
+      <column name="description" value="Học xây dựng ứng dụng hiện đại với App Router."/>
+      <column name="creator_id" valueNumeric="38"/>
+      <column name="category_id" valueComputed="(SELECT id FROM category WHERE slug = 'web-development' LIMIT 1)"/>
+      <column name="status" value="PUBLISHED"/>
+      <column name="level" value="INTERMEDIATE"/>
+      <column name="price" valueNumeric="799000.00"/>
+      <column name="published_at" valueComputed="CURRENT_TIMESTAMP"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="content-0008-insert-fake-chapter" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="chapter"/>
+      <tableExists tableName="content"/>
+    </preConditions>
+
+    <insert tableName="chapter">
+      <column name="content_id" valueComputed="(SELECT id FROM content WHERE title = 'Khóa học Next.js 14 Fullstack' LIMIT 1)"/>
+      <column name="title" value="Chương 1: Khởi đầu với Next.js"/>
+      <column name="display_order" valueNumeric="1"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="content-0009-insert-fake-section" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="section"/>
+      <tableExists tableName="chapter"/>
+    </preConditions>
+
+    <insert tableName="section">
+      <column name="chapter_id" valueComputed="(SELECT id FROM chapter WHERE title = 'Chương 1: Khởi đầu với Next.js' LIMIT 1)"/>
+      <column name="title" value="Bài 1: Cấu hình môi trường"/>
+      <column name="content" value="Nội dung bài học..."/>
+      <column name="display_order" valueNumeric="1"/>
+      <column name="is_free" valueBoolean="true"/>
+    </insert>
+  </changeSet>
+
+</databaseChangeLog>

@@ -5,6 +5,6 @@ services:
       BASE_URL: /swagger-ui
       OAUTH_USE_BASIC_AUTH: true
       OAUTH_USE_PKCE: true
-      URLS: '[{"url":"http://localhost:8002/v3/api-docs","name":"Credit service"},{"url":"http://localhost:8003/v3/api-docs","name":"Content service"},{"url":"http://localhost:8001/v3/api-docs","name":"Identity service"}]'
+      URLS: '[{"url":"http://localhost:8002/v3/api-docs","name":"Credit service"},{"url":"http://localhost:8003/v3/api-docs","name":"Content service"},{"url":"http://localhost:8001/v3/api-docs","name":"Identity service"},{"url":"http://localhost:8005/v3/api-docs","name":"Notifycation-service"}]'
     ports:
       - "8080:8080"

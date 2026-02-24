@@ -57,7 +57,7 @@ public class OAuth2Client {
     @Column(name = "grant_type",nullable = false,length = 50)
     Set<String> grantTypes;
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "oauth2_client_redirect_uri",joinColumns = @JoinColumn(name = "client_id"))
+    @CollectionTable(name = "oauth2_client_redirect_uris",joinColumns = @JoinColumn(name = "client_id"))
     @Column(name = "redirect_uri",nullable = false,length = 500)
     Set<String> redirectUris;
     @ElementCollection(fetch = FetchType.EAGER)

@@ -1,0 +1,5 @@
+credential:
+  internal:
+    basic-auth:
+      username: ${BASIC_AUTH_CREDENTIAL-USERNAME}
+      password: ${BASIC_AUTH_CREDENTIAL-PASSWORD}

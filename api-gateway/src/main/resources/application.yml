@@ -27,6 +27,14 @@ spring:
               filters:
                 - RewritePath=/identity-service/?(?<segment>.*),/$\{segment}
                 - DedupeResponseHeader=Access-Control-Allow-Origin
+            - id: notifycation-service
+              uri: lb://notifycation-service
+              predicates:
+                - Path=/notifycation-service/**
+              filters:
+                - RewritePath=/notifycation-service/?(?<segment>.*),/$\{segment}
+                - DedupeResponseHeader=Access-Control-Allow-Origin
+
           globalcors:
             cors-configurations:
               '[/**]':
@@ -45,3 +53,7 @@ eureka:
     prefer-ip-address: true
 server:
   port: 8888
+logging:
+  level:
+    org:
+      springframework:

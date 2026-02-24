@@ -1,0 +1,70 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  <changeSet id="content-0010-insert-spring-boot-course" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="content"/>
+    </preConditions>
+    <insert tableName="content">
+      <column name="title" value="Lập trình Backend với Spring Boot 3"/>
+      <column name="description" value="Xây dựng hệ thống Microservices mạnh mẽ và bảo mật."/>
+      <column name="creator_id" valueNumeric="39"/>
+      <column name="category_id" valueComputed="(SELECT id FROM category WHERE slug = 'backend-development' LIMIT 1)"/>
+      <column name="status" value="PUBLISHED"/>
+      <column name="level" value="ADVANCED"/>
+      <column name="price" valueNumeric="950000.00"/>
+      <column name="published_at" valueComputed="CURRENT_TIMESTAMP"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="content-0011-insert-spring-boot-chapter" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="chapter"/>
+    </preConditions>
+    <insert tableName="chapter">
+      <column name="content_id" valueComputed="(SELECT id FROM content WHERE title = 'Lập trình Backend với Spring Boot 3' LIMIT 1)"/>
+      <column name="title" value="Chương 1: Kiến trúc Microservices"/>
+      <column name="display_order" valueNumeric="1"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="content-0012-insert-spring-boot-section" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="section"/>
+    </preConditions>
+    <insert tableName="section">
+      <column name="chapter_id" valueComputed="(SELECT id FROM chapter WHERE title = 'Chương 1: Kiến trúc Microservices' AND content_id = (SELECT id FROM content WHERE title = 'Lập trình Backend với Spring Boot 3'))"/>
+      <column name="title" value="Bài 1: Giới thiệu về Spring Cloud"/>
+      <column name="content" value="Nội dung bài học về Spring Cloud..."/>
+      <column name="display_order" valueNumeric="1"/>
+      <column name="is_free" valueBoolean="true"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="content-0013-insert-react-native-course" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="content"/>
+    </preConditions>
+    <insert tableName="content">
+      <column name="title" value="React Native: Xây dựng App đa nền tảng"/>
+      <column name="description" value="Học cách tạo ứng dụng iOS và Android từ một nguồn code duy nhất."/>
+      <column name="creator_id" valueNumeric="39"/>
+      <column name="category_id" valueComputed="(SELECT id FROM category WHERE slug = 'mobile-development' LIMIT 1)"/>
+      <column name="status" value="PUBLISHED"/>
+      <column name="level" value="BEGINNER"/>
+      <column name="price" valueNumeric="650000.00"/>
+      <column name="published_at" valueComputed="CURRENT_TIMESTAMP"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="content-0014-insert-react-native-chapter" author="t">
+    <preConditions onFail="MARK_RAN">
+      <tableExists tableName="chapter"/>
+    </preConditions>
+    <insert tableName="chapter">
+      <column name="content_id" valueComputed="(SELECT id FROM content WHERE title = 'React Native: Xây dựng App đa nền tảng' LIMIT 1)"/>
+      <column name="title" value="Chương 1: Hello React Native"/>
+      <column name="display_order" valueNumeric="1"/>
+    </insert>
+  </changeSet>
+
+</databaseChangeLog>

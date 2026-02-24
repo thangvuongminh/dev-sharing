@@ -12,9 +12,10 @@
     <include file="db/changelog/ddl/ddl-006-drop-null-constraint-table-user.xml" />
     <include file="db/changelog/ddl/ddl-007-refactor-column-status-table-user.xml" />
     <include file="db/changelog/ddl/ddl-008-oauth2-tables.xml"/>
-
-
+    <include file="db/changelog/ddl/ddl-009-default-value-is-active-oauth2-client.xml"/>
+    <include file="db/changelog/ddl/ddl-010-drop-null-verified_at-user_verification.xml"/>
 <!--    insert data-->
     <include file="db/changelog/data/ddl-001-data-table-role.xml"/>
-    <include file="db/changelog/data/ddl-002-data-oauth2_clients.xml"
+    <include file="db/changelog/data/ddl-002-data-oauth2_clients.xml"/>
+    <include file="db/changelog/data/ddl-003-modify-oauth2_client-require_authorization_consent.xml"/>
 </databaseChangeLog>

@@ -42,4 +42,9 @@ public class DevSharingExceptionHandler {
                 ApiResponse.error(errors,null,"VALIDATION ERROR")
         );
     }
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ApiResponse<?>> handleExceptionErrorSystem(Exception e){
+      e.printStackTrace();
+    return   ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error(e.getMessage(),"500"));
+  }
 }

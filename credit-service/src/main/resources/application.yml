@@ -10,4 +10,8 @@ spring:
     import: optional:configserver:http://localhost:6969
 server:
   port: 8002
-
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE

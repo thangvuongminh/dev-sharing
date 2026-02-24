@@ -26,7 +26,8 @@ import org.springframework.stereotype.Component;
                 scopes = {@OAuthScope(
                     name = "openid", description = "openid"),
                     @OAuthScope(
-                        name = "profile", description = "profile")
+                        name = "profile", description = "profile"),
+                        @OAuthScope(name = "offline_access", description = "offline_access")
                 }
             )
 

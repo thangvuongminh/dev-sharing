@@ -25,8 +25,8 @@ public class DynamicDatabaseRegisteredClient implements RegisteredClientReposito
     Oauth2ClientRepository oauth2ClientRepository;
     @Override
     public void save(RegisteredClient registeredClient) {
-        OAuth2Client client = convertToEntity(registeredClient);
-        oauth2ClientRepository.save(client);
+//        OAuth2Client client = convertToEntity(registeredClient);
+//        oauth2ClientRepository.save(client);
     }
 
     @Override

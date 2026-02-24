@@ -13,4 +13,7 @@ import lombok.experimental.FieldDefaults;
 public class DevSharingException extends RuntimeException{
     private DevSharingExceptionInfo devSharingExceptionInfo;
     private Object[] args;
+    public DevSharingException(DevSharingExceptionInfo devSharingExceptionInfo){
+        this.devSharingExceptionInfo = devSharingExceptionInfo;
+    }
 }

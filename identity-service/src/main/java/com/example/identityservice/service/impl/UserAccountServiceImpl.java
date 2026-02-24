@@ -1,36 +1,44 @@
 package com.example.identityservice.service.impl;
 
 import com.dev.sharing.api.commom.exception.DevSharingException;
+import com.example.identityservice.client.payload.NotificationClient;
+import com.example.identityservice.client.payload.request.SendNotificationClientRequest;
 import com.example.identityservice.dto.UserRegisterDto;
 import com.example.identityservice.dto.response.UserRegistrationResponseDto;
-import com.example.identityservice.entity.Role;
-import com.example.identityservice.entity.RoleEnum;
-import com.example.identityservice.entity.User;
-import com.example.identityservice.entity.UserRole;
+import com.example.identityservice.entity.*;
 import com.example.identityservice.exception.ExceptionEnum;
 import com.example.identityservice.mapper.UserRegistrationMapper;
+import com.example.identityservice.model.UserVerificationChannel;
 import com.example.identityservice.repository.RoleRepository;
 import com.example.identityservice.repository.UserRepository;
 import com.example.identityservice.repository.UserRoleRepository;
+import com.example.identityservice.repository.UserVerificationRepository;
 import com.example.identityservice.service.UserAccountService;
+import com.example.notifycationservice.model.NotificationChannel;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 public class UserAccountServiceImpl  implements UserAccountService {
     RoleRepository roleRepository;
     UserRepository userRepository;
     UserRoleRepository userRoleRepository;
     PasswordEncoder passwordEncoder;
     UserRegistrationMapper userRegistrationMapper;
+    UserVerificationRepository userVerificationRepository;
+    NotificationClient  notificationClient;
     @Override
     @Transactional
     public UserRegistrationResponseDto registerUser(UserRegisterDto userRegisterDto) {
@@ -38,8 +46,34 @@ public class UserAccountServiceImpl  implements UserAccountService {
         checkUserExists(userRegisterDto.getUsername());
         User user=saveUserFromUserRegisterDto(userRegisterDto);
         saveUserRoleFromUserRegisterDto(role,user);
+        sendEmailVerification(user);
         UserRegistrationResponseDto responseDto=userRegistrationMapper.toUserRegistrationResponseDto(user);
         return responseDto;
+    }
+    public void  sendEmailVerification(User user){
+        try{
+            UserVerification userVerification=new UserVerification();
+            userVerification.setUser(user);
+            userVerification.setVerificationCode(UUID.randomUUID().toString());
+            userVerification.setReceiver(user.getEmail());
+            Instant expireEmailVerificationTime = Instant.now().plus(1, ChronoUnit.DAYS);
+            userVerification.setExpiredAt(expireEmailVerificationTime);
+            userVerification.setChannel(UserVerificationChannel.EMAIL.name());
+            userVerification.setCreateBy(user.getId());
+            userVerification.setUpdateBy(user.getId());
+            userVerification.setCreateAt(Instant.now());
+            userVerification.setUpdateAt(Instant.now());
+            userVerificationRepository.save(userVerification);
+            notificationClient.sendNotification(SendNotificationClientRequest
+                    .builder()
+                            .to(user.getEmail())
+                            .channel(UserVerificationChannel.EMAIL.name())
+                            .content(UUID.randomUUID().toString())
+                    .build());
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info("Error in sending email [{}] verification with user [{}]",user.getEmail(),user.getId());
+        }
     }
     public Role getRoleConsumer(){
         Role role=roleRepository.findByRoleName(RoleEnum.CONSUMER)

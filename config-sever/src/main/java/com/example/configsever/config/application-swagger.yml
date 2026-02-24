@@ -2,7 +2,13 @@ springdoc:
   swagger-ui:
     oauth:
       use-basic-authentication-with-access-code-grant: true
+
 api-docs:
   authorizationUrl: ${authorizationUrl}
   tokenUrl:  ${tokenUrl}
   server: ${server}
+security:
+  basic:
+    auth:
+      username: ${APP_AUTH_USER}
+      password: ${APP_AUTH_PASS}

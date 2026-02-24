@@ -4,3 +4,20 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driverClassName: com.mysql.jdbc.Driver
+  cloud:
+    openfeign:
+      okhttp:
+        enabled: ${OPENFEIGN_ENABLE_OKHTTP}
+      httpclient:
+        hc5:
+          enabled: #{!${OPENFEIGN_ENABLE_OKHTTP}}
+      client:
+        config:
+          notifycation-service:
+            read-timeout: ${OPENFEIGN_NOTIFYCATIONS-SERVICE-CONNECT_TIMEOUT}
+            connect-timeout: ${OPENFEIGN_NOTIFYCATIONS-SERVICE-READ_TIMEOUT}
+clients:
+  internal:
+    notifications-service:
+      username: ${INTERNAL_NOTIFICATIONS-SERVICE_CREDENTIALS_USER}
+      password: ${INTERNAL_NOTIFICATIONS-SERVICE_CREDENTIALS_PASSWORD}

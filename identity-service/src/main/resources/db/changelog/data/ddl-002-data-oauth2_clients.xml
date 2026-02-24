@@ -7,41 +7,41 @@
     <changeSet id="002" author="ThangVm-data-oauth2_clients">
         <insert tableName="oauth2_clients">
             <column name="client_id" value="oidc-client"/>
-            <column name="client_secret" value="$2a$10$2H8r2ok5Y5kCrIOwuBa9OuRlglHQwxdm3qAVoNrI5O5okbjnrRRmW"/>
+            <column name="client_secret" value="{noop}secret"/>
             <column name="client_name" value="OIDC-DEMO-CLIENT"/>
             <column name="description" value="Spring authorization server OIDC-DEMO-CLIENT for swagger and testing"/>
-            <column name="require_proof_key" value="true"/>
-            <column name="require_authorization_consent"/>
+            <column name="require_proof_key" value="1"/>
+            <column name="require_authorization_consent" value="0"/>
             <column name="access_token_time_to_live" value="1800"/>
             <column name="refresh_token_time_to_live" value="604800"/>
             <column name="created_by" value="0"/>
         </insert>
         <insert tableName="oauth2_client_auth_methods">
-            <column name="client_id" value="oidc-client"/>
+            <column name="client_id" valueComputed="(select id from oauth2_clients where client_id='oidc-client')"/>
             <column name="auth_method" value="client_secret_basic"/>
         </insert>
         <insert tableName="oauth2_client_grant_types">
-            <column name="client_id" value="oidc-client"/>
+            <column name="client_id" valueComputed="(select id from oauth2_clients where client_id='oidc-client')"/>
             <column name="grant_type" value="authorization_code"/>
         </insert>
-        <insert tableName="oauth2_client_redirect_uri">
-            <column name="client_id" value="oidc-client"/>
+        <insert tableName="oauth2_client_redirect_uris">
+            <column name="client_id" valueComputed="(select id from oauth2_clients where client_id='oidc-client')"/>
             <column name="redirect_uri" value="http://127.0.0.1:8080/login/oauth2/code/oidc-client"/>
         </insert>
-        <insert tableName="oauth2_client_redirect_uri">
-            <column name="client_id" value="oidc-client"/>
+        <insert tableName="oauth2_client_redirect_uris">
+            <column name="client_id" valueComputed="(select id from oauth2_clients where client_id='oidc-client')"/>
             <column name="redirect_uri" value="http://localhost:8002/swagger-ui/oauth2-redirect.html"/>
         </insert>
-        <insert tableName="oauth2_client_redirect_uri">
-            <column name="client_id" value="oidc-client"/>
+        <insert tableName="oauth2_client_redirect_uris">
+            <column name="client_id" valueComputed="(select id from oauth2_clients where client_id='oidc-client')"/>
             <column name="redirect_uri" value="http://localhost:8080/swagger-ui/oauth2-redirect.html"/>
         </insert>
         <insert tableName="oauth2_client_scopes">
-            <column name="client_id" value="oidc-client"/>
+            <column name="client_id" valueComputed="(select id from oauth2_clients where client_id='oidc-client')"/>
             <column name="scope" value="openid"/>
         </insert>
         <insert tableName="oauth2_client_scopes">
-            <column name="client_id" value="oidc-client"/>
+            <column name="client_id" valueComputed="(select id from oauth2_clients where client_id='oidc-client')"/>
             <column name="scope" value="profile"/>
         </insert>
     </changeSet>

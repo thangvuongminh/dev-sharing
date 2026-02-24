@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  <include file="db/changelog/ddl/ddl-001-init-table-content-service.xml"/>
+  <include file="db/changelog/ddl/ddk-002-redesign-content.xml"/>
+
+
+  <!--    INSERT DATA-->
+  <include file="db/changelog/data/ddl-001-initial-data-category.xml"/>
+  <include file="db/changelog/data/ddl-002-create-data-content.xml"/>
+  <include file="db/changelog/data/ddl-003-create-data-add.xml"/>
+</databaseChangeLog>
