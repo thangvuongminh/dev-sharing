@@ -21,4 +21,14 @@ public interface ContentService {
 
   // search and filter pagination
   public Page<Content> searchContentByAuthor(ContentSearchRequest contentSearchRequest);
+  public Page<Content> searchContentAnyUsers(ContentSearchRequest contentSearchRequest);
+
+  // content management
+  public Content publishContent(Long contentId) ;
+  public Content archiveContent(Long contentId);
+  public Content submitForReview(Long contentId);
+
+  // Tracking (called by other services)
+  public void incrementViewCount(Long contentId);
+  public void incrementPurchaseCount(Long contentId);
 }

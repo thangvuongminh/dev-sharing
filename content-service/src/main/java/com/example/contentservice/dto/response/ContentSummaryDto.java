@@ -20,7 +20,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ContentSummaryDto {
-
   Long id;
   String title;
   String description;

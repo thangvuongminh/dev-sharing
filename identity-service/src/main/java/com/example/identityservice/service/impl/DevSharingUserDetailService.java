@@ -24,7 +24,7 @@ public class DevSharingUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user=userRepository.findByUserName(username);
         if(user==null){
-            return  null;
+            throw new UsernameNotFoundException("Bad credentials or password");
         }
         return new UserDetails() {
             @Override

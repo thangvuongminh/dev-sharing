@@ -64,7 +64,7 @@ public class ContentController {
     return ResponseEntity.ok().body(null);
   }
 
-  @PostMapping("/search/author")
+  @PostMapping("/search/content/author")
   @Operation(summary = "Search content by author", description = "Search content by author")
   public ResponseEntity<ApiResponse<Page<ContentSummaryDto>>> getContentByAuthor(
       @RequestBody ContentSearchRequest contentSearchRequest) {
@@ -73,5 +73,46 @@ public class ContentController {
     );
     return ResponseEntity.ok().body(ApiResponse.success(contentSummaryDtos));
   }
-
+  @PostMapping("/search/content/users")
+  @Operation(summary = "Search content by any users", description = "Search content by any users")
+  public ResponseEntity<ApiResponse<Page<ContentSummaryDto>>> getContentByAnyUsers(
+      @RequestBody ContentSearchRequest contentSearchRequest) {
+    Page<Content> allContents= contentService.searchContentAnyUsers(contentSearchRequest);
+    Page<ContentSummaryDto> contentSummaryDtos = allContents.map(contentMapper::toContentSummaryDto
+    );
+    return ResponseEntity.ok().body(ApiResponse.success(contentSummaryDtos));
+  }
+  @PostMapping("/{contentId}/publish")
+  @Operation(summary = "Publish content",description = "Publish content for transaction")
+  public ResponseEntity<ApiResponse<ContentDto>> publishContent(@PathVariable long contentId) {
+    Content content = contentService.publishContent(contentId);
+    ContentDto contentDto = contentMapper.toContentDto(content);
+    return ResponseEntity.ok().body(ApiResponse.success(contentDto));
+  }
+  @PostMapping("/{contentId}/archive")
+  @Operation(summary = "Publish content",description = "Publish content for transaction")
+  public ResponseEntity<ApiResponse<ContentDto>> archiveContent(@PathVariable long contentId) {
+    Content content = contentService.archiveContent(contentId);
+    ContentDto contentDto = contentMapper.toContentDto(content);
+    return ResponseEntity.ok().body(ApiResponse.success(contentDto));
+  }
+  @PostMapping("/{contentId}/submit-review")
+  @Operation(summary = "submit reviews content",description = "submit reviews content")
+  public ResponseEntity<ApiResponse<ContentDto>> submitContentForReview(@PathVariable long contentId) {
+    Content content = contentService.submitForReview(contentId);
+    ContentDto contentDto = contentMapper.toContentDto(content);
+    return ResponseEntity.ok().body(ApiResponse.success(contentDto));
+  }
+  @PostMapping("{contentId}/view")
+  @Operation(summary = "Increment view count",description = "Track content view (public)")
+  public ResponseEntity<ApiResponse<Void>> incrementViewCount(@PathVariable long contentId) {
+    contentService.incrementViewCount(contentId);
+    return ResponseEntity.ok().body(ApiResponse.success(null));
+  }
+  @PostMapping("{contentId}/increment-purchase-count")
+  @Operation(summary = "Increment purchase count",description = "Called by purchase-service after successful purchase (internal API)")
+  public ResponseEntity<ApiResponse<Void>> incrementPurchaseCount(@PathVariable long contentId) {
+    contentService.incrementPurchaseCount(contentId);
+    return ResponseEntity.ok().body(ApiResponse.success(null));
+  }
 }

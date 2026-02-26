@@ -129,11 +129,96 @@ public class ContentServiceImpl implements ContentService {
     Pageable pageable = PageableSorting.getPageable(contentSearchRequest.getSortBy(),
         contentSearchRequest.getSortDirection(), contentSearchRequest.getPage(),
         contentSearchRequest.getSize());
-    Specification<Content> spec=ContentPreSpecification.withFiltersByAuthor(contentSearchRequest);
-
+    Specification<Content> spec = Specification.allOf(
+        ContentPreSpecification.withFiltersByAuthor(contentSearchRequest),
+        ContentPreSpecification.withFiltersUnLimited(contentSearchRequest),
+        ContentPreSpecification.withFiltersStatus(contentSearchRequest, true));
     return contentRepository.findAll(
-        ContentPreSpecification.withFiltersByAuthor(contentSearchRequest), pageable);
+        spec, pageable);
   }
 
+  @Override
+  public Page<Content> searchContentAnyUsers(ContentSearchRequest contentSearchRequest) {
+    Pageable pageable = PageableSorting.getPageable(contentSearchRequest.getSortBy(),
+        contentSearchRequest.getSortDirection(), contentSearchRequest.getPage(),
+        contentSearchRequest.getSize());
+    Specification<Content> spec = Specification.allOf(
+        ContentPreSpecification.withFiltersUnLimited(contentSearchRequest),
+        ContentPreSpecification.withFiltersStatus(contentSearchRequest, false));
+    return contentRepository.findAll(
+        spec, pageable);
+  }
+
+  @Override
+  @Transactional
+  public Content publishContent(Long id) {
+    Content content = contentRepository.findById(id).orElseThrow(
+        () -> new DevSharingException(ExceptionEnum.CONTENT_NOT_FOUND)
+    );
+    if (!content.getCreatorId().equals(UserContentExtractor.getUserId())) {
+      throw new DevSharingException(ExceptionEnum.UNAUTHORIZE_CONTENT_ACCESS);
+    }
+    if (content.getStatus() != ContentStatus.APPROVED   ) {
+      throw new DevSharingException(ExceptionEnum.CONTENT_NO_REVIEW);
+    }
+    content.setUpdatedAt(Instant.now());
+    content.setPublishedAt(Instant.now());
+    content.setStatus(ContentStatus.PUBLISHED);
+    contentRepository.save(content);
+    return content;
+  }
+  @Override
+  @Transactional
+  public Content archiveContent(Long id) {
+    Content content = contentRepository.findById(id).orElseThrow(
+        () -> new DevSharingException(ExceptionEnum.CONTENT_NOT_FOUND)
+    );
+    if (!content.getCreatorId().equals(UserContentExtractor.getUserId())) {
+      throw new DevSharingException(ExceptionEnum.UNAUTHORIZE_CONTENT_ACCESS);
+    }
+    content.setUpdatedAt(Instant.now());
+    content.setPublishedAt(Instant.now());
+    content.setStatus(ContentStatus.ARCHIVED);
+    contentRepository.save(content);
+    return content;
+  }
+  @Override
+  @Transactional
+  public Content submitForReview(Long id) {
+    Content content = contentRepository.findById(id).orElseThrow(
+        () -> new DevSharingException(ExceptionEnum.CONTENT_NOT_FOUND)
+    );
+    if (!content.getCreatorId().equals(UserContentExtractor.getUserId())) {
+      throw new DevSharingException(ExceptionEnum.UNAUTHORIZE_CONTENT_ACCESS);
+    }
+    if (content.getStatus() == ContentStatus.APPROVED ||  content.getStatus() == ContentStatus.REJECTED) {
+      throw new DevSharingException(ExceptionEnum.CONTENT_NO_REVIEW);
+    }
+    content.setUpdatedAt(Instant.now());
+    content.setPublishedAt(Instant.now());
+    content.setStatus(ContentStatus.PENDING_REVIEW);
+    contentRepository.save(content);
+    return content;
+  }
+
+  @Override
+  @Transactional
+  public void incrementViewCount(Long contentId) {
+    Content content = contentRepository.findById(contentId).orElseThrow(
+        () -> new DevSharingException(ExceptionEnum.CONTENT_NOT_FOUND)
+    );
+    content.setViewCount(content.getViewCount() + 1);
+    contentRepository.save(content);
+  }
+
+  @Override
+  @Transactional
+  public void incrementPurchaseCount(Long contentId) {
+    Content content = contentRepository.findById(contentId).orElseThrow(
+        () -> new DevSharingException(ExceptionEnum.CONTENT_NOT_FOUND)
+    );
+    content.setPurchaseCount(content.getPurchaseCount() + 1);
+    contentRepository.save(content);
+  }
 
 }
