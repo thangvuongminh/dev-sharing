@@ -16,6 +16,9 @@ public enum ExceptionEnum implements DevSharingExceptionInfo {
     CONTENT_CAN_NOT_SUMMIT("CONTENT_CAN_NOT_SUMMIT","Content can not summit",HttpStatus.CONFLICT),
     // Category errors
     CATEGORY_NOT_FOUND("CATEGORY_NOT_FOUND", "Category not found", HttpStatus.NOT_FOUND),
+    // Content Block
+    BLOCK_NOT_FOUND("BLOCK_NOT_FOUND","Block not found",HttpStatus.NOT_FOUND),
+    PARENT_BLOCK_NOT_IN_SAME_CONTENT("PARENT_BLOCK_NOT_IN_SAME_CONTENT","Parent and child blocks have mismatched content",HttpStatus.BAD_REQUEST),
     ;
     String errorCode;
     String errorMessage;
