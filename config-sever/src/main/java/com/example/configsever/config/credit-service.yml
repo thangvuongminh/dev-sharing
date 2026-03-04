@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+    driverClassName: com.mysql.jdbc.Driver
+basic:
+  credentials:
+    username: ${REQUEST_BASIC-AUTH_USERNAME}
+    password: ${REQUEST_BASIC-AUTH_PASSWORD}

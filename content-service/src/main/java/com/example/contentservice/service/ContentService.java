@@ -31,4 +31,6 @@ public interface ContentService {
   // Tracking (called by other services)
   public void incrementViewCount(Long contentId);
   public void incrementPurchaseCount(Long contentId);
+
+
 }

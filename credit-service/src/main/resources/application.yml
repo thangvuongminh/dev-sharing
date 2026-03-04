@@ -8,10 +8,12 @@ spring:
           issuer-uri: http://localhost:8001
   config:
     import: optional:configserver:http://localhost:6969
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
 server:
   port: 8002
 logging:
   level:
     org:
       springframework:
-        security: TRACE
+        security: DEBUG

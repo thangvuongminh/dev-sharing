@@ -8,5 +8,6 @@ spring:
       server:
         native:
           search-locations: C:\Users\Admin\Music\dev-sharing\config-sever\src\main\java\com\example\configsever\config
+
 server:
   port: 6969

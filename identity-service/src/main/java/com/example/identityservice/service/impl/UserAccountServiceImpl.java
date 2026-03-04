@@ -14,7 +14,6 @@ import com.example.identityservice.repository.UserRepository;
 import com.example.identityservice.repository.UserRoleRepository;
 import com.example.identityservice.repository.UserVerificationRepository;
 import com.example.identityservice.service.UserAccountService;
-import com.example.notifycationservice.model.NotificationChannel;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

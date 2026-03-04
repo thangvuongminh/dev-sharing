@@ -2,6 +2,7 @@ package com.example.contentservice.service.impl;
 
 import com.dev.sharing.api.commom.exception.DevSharingException;
 import com.example.contentservice.dto.request.CreateBlockRequest;
+import com.example.contentservice.dto.request.MoveBlockRequest;
 import com.example.contentservice.dto.request.UpdateContentBlockRequest;
 import com.example.contentservice.entity.BlockType;
 import com.example.contentservice.entity.Content;
@@ -92,6 +93,12 @@ public class ContentBlockServiceImpl implements ContentBlockService {
   @Override
   public ContentBlock getContentBlock(Long contentId, Long blockId) {
     return checkAuthorizeContent(contentId, blockId);
+  }
+
+  @Override
+  public ContentBlock moveContentBlock(Long contentId, Long blockId,
+      MoveBlockRequest moveBlockRequest) {
+    return null;
   }
 
   public ContentBlock checkAuthorizeContent(Long contentId, Long blockId) {
