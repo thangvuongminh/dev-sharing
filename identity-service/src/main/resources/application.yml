@@ -9,6 +9,5 @@ server:
   port: 8001
 logging:
   level:
-
     com.example.identityservice.client: DEBUG
     okhttp3: DEBUG
