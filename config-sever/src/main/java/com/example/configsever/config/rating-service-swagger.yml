@@ -1,0 +1,3 @@
+authorizationUrl: http://localhost:8001/oauth2/authorize
+tokenUrl: http://localhost:8001/oauth2/token
+server: http://localhost:8888/credit-service

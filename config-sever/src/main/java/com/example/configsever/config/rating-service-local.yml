@@ -1,0 +1,6 @@
+authorizationUrl: http://localhost:8001/oauth2/authorize
+tokenUrl: http://localhost:8001/oauth2/token
+server: http://localhost:8888/rating-service
+DB_USERNAME: root
+DB_PASSWORD: root
+DB_URL: jdbc:mysql://localhost:3306/rating-service
